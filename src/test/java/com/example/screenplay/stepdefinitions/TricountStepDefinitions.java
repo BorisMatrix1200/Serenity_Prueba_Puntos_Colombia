@@ -14,11 +14,6 @@ import net.serenitybdd.annotations.Managed;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.Cast;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
-import org.openqa.selenium.remote.DesiredCapabilities;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -41,19 +36,6 @@ public class TricountStepDefinitions {
 
     @Dado("el usuario abre la aplicación Tricount en un dispositivo Android con la app instalada")
     public void elUsuarioAbreLaAplicacionTricountEnAndroid()  {
-
-        /*DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability("platformName", "Android");
-        caps.setCapability("deviceName", "21061119AL");
-        caps.setCapability("automationName", "UiAutomator2");
-        caps.setCapability("appPackage", "com.tribab.tricount.android");
-        caps.setCapability("appActivity", "com.bunq.tricount.android.ui.activity.main.TricountMainActivity");
-        caps.setCapability("noReset", true);
-
-        AppiumDriver driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), caps);
-        throws MalformedURLException*/
-
-        /*OnStage.setTheStage(new Cast());*/
         OnStage.theActorCalled("Usuario").can(BrowseTheWeb.with(driver));
     }
 

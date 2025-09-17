@@ -11,10 +11,12 @@ import org.openqa.selenium.By;
  */
 public class LoginMessage implements Question<String> {
     /**
-     * Localizador del mensaje de error de cuenta Google inválida.
+     * Localizador robusto del mensaje de error de cuenta Google inválida.
+     * Se recomienda usar resource-id para mayor estabilidad.
+     * Si no existe, solicitar al equipo de desarrollo agregarlo.
      */
-    private static final Target GOOGLE_INVALID_EMAIL_MESSAGE = Target.the("mensaje de error de cuenta Google")
-        .located(By.xpath("//*[contains(@text, 'Couldn’t find your Google Account') or contains(@text, 'No se pudo encontrar tu cuenta de Google') or contains(@text, 'Cuenta de Google inválida')]"));
+    private static final Target GOOGLE_INVALID_EMAIL_MESSAGE = Target.the("Mensaje de error de cuenta Google")
+        .located(By.id("com.google.android.gms:id/error_message")); // Cambia por el resource-id real si es necesario
 
     /**
      * Devuelve el texto del mensaje de error de cuenta Google inválida.

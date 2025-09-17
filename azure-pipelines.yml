@@ -1,11 +1,15 @@
 trigger:
-  - main  # o cambia a 'master' si ese es tu branch principal
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  ANDROID_HOME: $(HOME)/android-sdk
+  ANDROID_SDK_ROOT: $(HOME)/android-sdk
+  EMULATOR_NAME: 'test-emulator'
+  APK_PATH: 'tricount.apk' # Cambia el nombre si tu APK tiene otro nombre o ruta
 
 steps:
   # Paso 1: Obtener el código fuente
@@ -20,14 +24,70 @@ steps:
       path: $(Pipeline.Workspace)/.m2/repository
     displayName: 'Cache Maven dependencies'
 
-  # Paso 3: Configurar JDK 17
+  # Paso 3: Instalar Node.js
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Install Node.js'
+
+  # Paso 4: Instalar Appium y driver UiAutomator2
+  - script: |
+      npm install -g appium@3
+      appium driver install uiautomator2
+    displayName: 'Install Appium and UiAutomator2 driver'
+
+  # Paso 5: Instalar SDK de Android y imagen del sistema
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y android-sdk adb
+      yes | sdkmanager --licenses
+      sdkmanager "platform-tools" "platforms;android-33" "system-images;android-33;google_apis;x86_64" "emulator"
+    displayName: 'Install Android SDK and system image'
+
+  # Paso 6: Crear e iniciar emulador de Android
+  - script: |
+      echo "no" | avdmanager create avd -n $(EMULATOR_NAME) -k "system-images;android-33;google_apis;x86_64" --force
+      $ANDROID_HOME/emulator/emulator -list-avds
+      nohup $ANDROID_HOME/emulator/emulator -avd $(EMULATOR_NAME) -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect &
+      adb wait-for-device
+      adb shell input keyevent 82
+    displayName: 'Create and start Android emulator'
+
+  # Paso 7: Esperar a que el emulador de Android inicie
+  - script: |
+      bootanim=""
+      until [[ "$bootanim" =~ "stopped" ]]; do
+        bootanim=$(adb -e shell getprop init.svc.bootanim 2>&1)
+        echo "Waiting for emulator to boot..."
+        sleep 10
+      done
+      echo "Emulator booted."
+    displayName: 'Wait for Android emulator to boot'
+
+  # Paso 8: Instalar APK en el emulador
+  - script: |
+      adb install -r $(APK_PATH)
+    displayName: 'Install APK on emulator'
+
+  # Paso 9: Lanzar la app Tricount antes de las pruebas
+  - script: |
+      adb shell am start -n com.tribab.tricount.android/com.bunq.tricount.android.ui.activity.LoadingTricountStartupInfoActivity
+    displayName: 'Launch Tricount app before tests'
+
+  # Paso 10: Iniciar el servidor de Appium
+  - script: |
+      nohup appium --base-path /wd/hub > appium.log 2>&1 &
+      sleep 10
+    displayName: 'Start Appium server'
+
+  # Paso 11: Configurar JDK 17
   - task: UseJavaVersion@1
     inputs:
       versionSpec: '17'
       architecture: 'x64'
     displayName: 'Set up JDK 17'
 
-  # Paso 4: Ejecutar pruebas con Maven
+  # Paso 12: Ejecutar pruebas con Maven
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
@@ -40,14 +100,14 @@ steps:
       mavenVersionOption: 'Default'
     displayName: 'Build and run Serenity tests'
 
-  # Paso 5: Publicar resultados JUnit (opcional pero recomendado)
+  # Paso 13: Publicar resultados JUnit (opcional pero recomendado)
   - task: PublishTestResults@2
     inputs:
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       failTaskOnFailedTests: true
       testRunTitle: 'Serenity BDD Test Results'
 
-  # Paso 6: Publicar reporte Serenity en artefactos del pipeline
+  # Paso 14: Publicar reporte Serenity en artefactos del pipeline
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'target/site/serenity'

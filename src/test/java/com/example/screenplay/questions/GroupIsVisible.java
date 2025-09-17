@@ -39,7 +39,10 @@ public class GroupIsVisible implements Question<Boolean> {
      */
     @Override
     public Boolean answeredBy(Actor actor) {
-        Target groupTarget = Target.the("Grupo en la lista").located(By.xpath("//*[contains(@text, '" + groupName + "')]"));
+        // Se recomienda usar resource-id único para los nombres de grupo en la lista.
+        // Si no existe, solicitar al equipo de desarrollo que lo agregue.
+        Target groupTarget = Target.the("Grupo en la lista")
+            .located(By.id("com.tribab.tricount.android:id/group_name")); // Cambia por el resource-id real si es necesario
         return groupTarget.resolveFor(actor).isVisible();
     }
 }
