@@ -1,0 +1,31 @@
+
+
+# Archivos de configuración del sistema
+*.class
+*.swp
+*.swo
+*.tmp
+
+# Configuración de IDEs comunes
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de Serenity
+
+# Archivos de reporte de Allure (si usas Allure también)
+/allure-results/
+/allure-report/

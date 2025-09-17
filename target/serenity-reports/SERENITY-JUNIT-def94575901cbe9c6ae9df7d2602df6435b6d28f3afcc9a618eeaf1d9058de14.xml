@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><testsuite errors="0" failures="4" name="Gestión de gastos compartidos en Tricount" skipped="0" tests="4" time="60.8" timestamp="2025-09-17 12:47:19"><testcase name="Inicio de sesión con Google"><failure message="&#13;&#10;Expected: an element that is visible&#13;&#10;     but: no matching element found by [Botón de perfil located with: xpath: //*[@contentDescription='Profile']]" type="java.lang.AssertionError">&#13;
+Expected: an element that is visible&#13;
+     but: no matching element found by [Botón de perfil located with: xpath: //*[@contentDescription='Profile']]</failure><system-err>&#13;
+Expected: an element that is visible&#13;
+     but: no matching element found by [Botón de perfil located with: xpath: //*[@contentDescription='Profile']]&#13;
+com.example.screenplay.tasks.LoginIncorrectWithGoogle.performAs(LoginIncorrectWithGoogle.java:50)&#13;
+com.example.screenplay.stepdefinitions.TricountStepDefinitions.elUsuarioIniciaSesionConLaCuentaDeGoogle(TricountStepDefinitions.java:67)&#13;
+</system-err></testcase><testcase name="Creación de grupo de gastos"><failure message="&#13;&#10;Expected: an element that is visible&#13;&#10;     but: no matching element found by [Botón de perfil located with: xpath: //*[@contentDescription='Profile']]" type="java.lang.AssertionError">&#13;
+Expected: an element that is visible&#13;
+     but: no matching element found by [Botón de perfil located with: xpath: //*[@contentDescription='Profile']]</failure><system-err>&#13;
+Expected: an element that is visible&#13;
+     but: no matching element found by [Botón de perfil located with: xpath: //*[@contentDescription='Profile']]&#13;
+com.example.screenplay.tasks.LoginWithGoogle.performAs(LoginWithGoogle.java:27)&#13;
+com.example.screenplay.stepdefinitions.TricountStepDefinitions.elUsuarioHaIniciadoSesión(TricountStepDefinitions.java:89)&#13;
+</system-err></testcase><testcase name="Registro de gasto compartido"><failure message="&#13;&#10;Expected: &lt;true&gt;&#13;&#10;     but: was &lt;false&gt;" type="java.lang.AssertionError">&#13;
+Expected: &lt;true&gt;&#13;
+     but: was &lt;false&gt;</failure><system-err>&#13;
+Expected: &lt;true&gt;&#13;
+     but: was &lt;false&gt;&#13;
+com.example.screenplay.stepdefinitions.TricountStepDefinitions.elUsuarioEstáEnElGrupo(TricountStepDefinitions.java:113)&#13;
+</system-err></testcase><testcase name="Visualización y liquidación de saldos"><failure message="&#13;&#10;Expected: an element that is visible&#13;&#10;     but: no matching element found by [Botón para ver saldos located with: xpath: //*[@text='Balances']/parent::*/android.widget.Button]" type="java.lang.AssertionError">&#13;
+Expected: an element that is visible&#13;
+     but: no matching element found by [Botón para ver saldos located with: xpath: //*[@text='Balances']/parent::*/android.widget.Button]</failure><system-err>&#13;
+Expected: an element that is visible&#13;
+     but: no matching element found by [Botón para ver saldos located with: xpath: //*[@text='Balances']/parent::*/android.widget.Button]&#13;
+com.example.screenplay.tasks.ViewBalances.performAs(ViewBalances.java:15)&#13;
+com.example.screenplay.stepdefinitions.TricountStepDefinitions.elUsuarioConsultaElResumenDeSaldos(TricountStepDefinitions.java:144)&#13;
+</system-err></testcase></testsuite>
