@@ -55,10 +55,10 @@ public class BalancePage {
      */
     public static final Target RECEIVER_FIELD = Target.the("Mensaje de pago exitoso")
             .located(By.xpath("//android.widget.TextView[@text='The tricount is settled']")); // Mejorar si es posible
-     * Se recomienda usar resource-id o content-desc único. Si no existe, solicitar al equipo de desarrollo.
-     * Selector temporal, actualizar cuando sea posible.
+     //* Se recomienda usar resource-id o content-desc único. Si no existe, solicitar al equipo de desarrollo.
+     //* Selector temporal, actualizar cuando sea posible.
     /**
-     * Mensaje de resumen de saldos indicando que todo está bien.
+     * //* Mensaje de resumen de saldos indicando que todo está bien.
         .located(By.id("com.tribab.tricount.android:id/balance_summary")); // Cambia por el resource-id real si existe
      */
     public static final Target BALANCE_SUMMARY = Target.the("Resumen de saldos all good")
